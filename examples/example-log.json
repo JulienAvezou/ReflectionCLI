@@ -1,0 +1,54 @@
+{
+  "version": "1.0",
+  "entries": [
+    {
+      "timestamp": "2026-02-13T12:00:00.000Z",
+      "date": "2026-02-13",
+      "branchName": "feature/core-setup",
+      "commitMessage": "Initial project setup: types, questions, storage",
+      "answers": {
+        "intent": "Establish the type system and core data structures for git-reflect",
+        "problemSolved": "Needed clear TypeScript interfaces and utility functions for reflection storage",
+        "learned": "Using keyof with mapped types in TypeScript allows strongly typed data models",
+        "wouldDoDifferently": "Maybe started with tests first to drive the design",
+        "confidence": "High - following established TypeScript patterns",
+        "testing": "Unit tests for questions.ts and storage.ts modules",
+        "technicalDebt": "TODO: Add retry logic for corrupted log files"
+      }
+    },
+    {
+      "timestamp": "2026-02-13T13:30:00.000Z",
+      "date": "2026-02-13",
+      "branchName": "feature/hook-implementation",
+      "commitMessage": "Implement pre-commit hook with inquirer prompts",
+      "answers": {
+        "intent": "Create the interactive hook that prompts users for reflections before commit",
+        "problemSolved": "Pre-commit hook needs to gracefully handle async prompts and exit codes",
+        "learned": "Inquirer.js validation patterns are powerful for requiring non-empty answers",
+        "wouldDoDifferently": "Could have added a dry-run mode earlier for testing",
+        "confidence": "Medium-high - async error handling edge cases may exist",
+        "testing": "Manual testing with real git repos, integration test needed",
+        "technicalDebt": "TODO: Add support for multiple commits in one session without re-prompting"
+      }
+    },
+    {
+      "timestamp": "2026-02-13T15:00:00.000Z",
+      "date": "2026-02-13",
+      "branchName": "main",
+      "commitMessage": "Add ESLint, tests, and GitHub Actions CI workflow",
+      "answers": {
+        "intent": "Ensure code quality with linting, comprehensive tests, and automated CI",
+        "problemSolved": "Project needed automated testing and style checking before merges",
+        "learned": "Configuring ESLint v8 with TypeScript plugins requires careful dependency management",
+        "wouldDoDifferently": "Would have set up linting earlier in the project to catch issues sooner",
+        "confidence": "High - CI workflow is standard practice and well-tested",
+        "testing": "All 14 tests passing, linting clean, GitHub Actions configured for multiple Node versions",
+        "technicalDebt": "TODO: Add code coverage thresholds and enforce in CI"
+      }
+    }
+  ],
+  "stats": {
+    "totalCommits": 3,
+    "projectStartDate": "2026-02-13"
+  }
+}
