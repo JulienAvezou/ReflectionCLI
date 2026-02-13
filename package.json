@@ -1,0 +1,40 @@
+{
+  "name": "git-reflect",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write src tests",
+    "prepare": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JulienAvezou/ReflectionCLI.git"
+  },
+  "keywords": "git,reflection,cli,developer-tools,cognitive-awareness",
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JulienAvezou/ReflectionCLI/issues"
+  },
+  "homepage": "https://github.com/JulienAvezou/ReflectionCLI#readme",
+  "description": "Integrate structured reflection into your git workflow. Prompts thoughtful questions before commits and builds your personal reflection dataset.",
+  "devDependencies": {
+    "@types/inquirer": "^9.0.9",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.2.3",
+    "eslint": "^10.0.0",
+    "inquirer": "^13.2.2",
+    "jest": "^30.2.0",
+    "prettier": "^3.8.1",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "bin": {
+    "git-reflect": "./bin/git-reflect"
+  }
+}
