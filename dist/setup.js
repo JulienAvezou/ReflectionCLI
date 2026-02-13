@@ -47,7 +47,9 @@ const HOOK_SCRIPT = `#!/bin/bash
 # git-reflect pre-commit hook
 # This hook runs before each commit to prompt reflection
 
-# Run the hook via git-reflect (available in PATH after npm link)
+# Connect to user's terminal for interactive input
+# Pre-commit hooks need explicit terminal connection
+exec </dev/tty
 exec git-reflect --hook
 
 exit $?
