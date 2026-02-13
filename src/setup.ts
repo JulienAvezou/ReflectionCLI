@@ -10,11 +10,8 @@ const HOOK_SCRIPT = `#!/bin/bash
 # git-reflect pre-commit hook
 # This hook runs before each commit to prompt reflection
 
-GIT_DIR="$1"
-GIT_REFLECT_CLI="$GIT_DIR/../../node_modules/.bin/git-reflect"
-
-# Run the hook via node
-exec node "$GIT_REFLECT_CLI" --hook
+# Run the hook via git-reflect (available in PATH after npm link)
+exec git-reflect --hook
 
 exit $?
 `;

@@ -15,10 +15,20 @@ function getBranchName(): string {
   try {
     const branch = execSync('git rev-parse --abbrev-ref HEAD', {
       encoding: 'utf-8',
+      stdio: ['pipe', 'pipe', 'ignore'], // Ignore stderr to suppress errors
     }).trim();
     return branch;
   } catch {
-    return 'unknown';
+    // On initial commit, HEAD doesn't exist - use current branch or master
+    try {
+      const branch = execSync('git branch --show-current', {
+        encoding: 'utf-8',
+        stdio: ['pipe', 'pipe', 'ignore'],
+      }).trim();
+      return branch || 'initial-commit';
+    } catch {
+      return 'initial-commit';
+    }
   }
 }
 
