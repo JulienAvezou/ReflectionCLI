@@ -4,7 +4,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { ReflectionLog, ReflectionEntry, LogStats, Answers } from './types';
+import { ReflectionLog, ReflectionEntry, Answers } from './types';
 
 const DEFAULT_LOG: ReflectionLog = {
   version: '1.0',

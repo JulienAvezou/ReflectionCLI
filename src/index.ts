@@ -2,7 +2,6 @@
  * Main CLI entry point for git-reflect
  */
 
-import * as path from 'path';
 import { runHook } from './hook';
 import { installHook, uninstallHook, verifyHook } from './setup';
 

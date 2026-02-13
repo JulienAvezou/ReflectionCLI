@@ -4,7 +4,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { findGitDir, getGitReflectDir, ensureGitReflectDir } from './storage';
+import { findGitDir, ensureGitReflectDir } from './storage';
 
 const HOOK_SCRIPT = `#!/bin/bash
 # git-reflect pre-commit hook

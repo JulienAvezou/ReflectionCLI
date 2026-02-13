@@ -36,7 +36,9 @@ function getCommitMessage() {
         if (!gitDir)
             return 'No message available';
         // Try to read from COMMIT_EDITMSG (available during pre-commit)
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
         const fs = require('fs');
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
         const path = require('path');
         const msgPath = path.join(gitDir, 'COMMIT_EDITMSG');
         if (fs.existsSync(msgPath)) {
@@ -49,7 +51,7 @@ function getCommitMessage() {
         }).trim();
         return `Changes to: ${status.split('\n').slice(0, 3).join(', ')}`;
     }
-    catch {
+    catch (_error) {
         return '[commit message]';
     }
 }
@@ -89,7 +91,7 @@ async function runHook() {
         console.log('\n📝 Reflection saved! Your entry has been added to .git/git-reflect/log.json\n');
         process.exit(0);
     }
-    catch (error) {
+    catch (_error) {
         // User cancelled (Ctrl+C)
         console.log('\n❌ Reflection cancelled. Commit aborted.\n');
         process.exit(1);
