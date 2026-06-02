@@ -57,7 +57,7 @@ function getCommitMessage(): string {
       encoding: 'utf-8',
     }).trim();
     return `Changes to: ${status.split('\n').slice(0, 3).join(', ')}`;
-  } catch (_error) {
+  } catch {
     return '[commit message]';
   }
 }
@@ -108,7 +108,7 @@ export async function runHook(): Promise<void> {
       '\n📝 Reflection saved! Your entry has been added to .git/git-reflect/log.json\n'
     );
     process.exit(0);
-  } catch (_error) {
+  } catch {
     // User cancelled (Ctrl+C)
     console.log('\n❌ Reflection cancelled. Commit aborted.\n');
     process.exit(1);

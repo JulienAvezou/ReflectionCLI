@@ -1,99 +1,93 @@
-# GitHub Copilot Instructions for git-reflect
+# GitHub Copilot Instructions for ReflectionCLI
 
 ## Project Overview
 
-**git-reflect** is a Node.js/TypeScript CLI tool that integrates structured reflection into the git commit workflow. It prompts developers with thoughtful questions before each commit and stores responses in `.git/git-reflect/log.json` to build a personal reflection dataset. The project embodies the philosophy of counteracting AI cognitive offloading through deliberate reflection.
+ReflectionCLI is a local-first TypeScript CLI for AI-assisted developers. It helps users preserve understanding, reduce comprehension debt, run explain-back sessions, audit AI outsourcing risk, record decisions, track system comprehension, and generate weekly thinking reports.
 
-## Build, Test, and Lint Commands
+The package still exposes `git-reflect` for the original Git hook workflow, and also exposes `reflection` for direct thinking workflows.
+
+## Build, Test, And Lint
 
 ```bash
-# Build TypeScript to dist/
 npm run build
-
-# Development: watch mode for continuous compilation
-npm run dev
-
-# Run all tests
-npm test
-
-# Run single test file
-npm test -- tests/storage.test.ts
-
-# Run tests in watch mode
-npm test -- --watch
-
-# Lint TypeScript files
 npm run lint
-
-# Format code with Prettier
-npm run format
-
-# Local installation (for testing)
-npm link
-git-reflect install
+npm test
+npm test -- --coverage
 ```
 
-## Architecture Overview
+For local CLI testing:
 
-### High-Level Flow
-
-1. **User commits** → Git triggers pre-commit hook
-2. **Hook prompts** → User answers 7 reflection questions via interactive CLI
-3. **Responses captured** → Stored in `.git/git-reflect/log.json` with metadata
-4. **Commit completes** → Only if user finishes reflection (or uses `--no-verify`)
-
-### Core Modules
-
-- **`index.ts`** — CLI entry point, command parsing (install, help)
-- **`setup.ts`** — Installs/configures the pre-commit hook into `.git/hooks/`
-- **`hook.ts`** — The executable pre-commit hook that prompts questions and stores responses
-- **`questions.ts`** — Defines the 7 reflection questions and their metadata
-- **`storage.ts`** — Handles reading/writing to `.git/git-reflect/log.json`
-- **`types.ts`** — TypeScript interfaces for ReflectionEntry, AnswersMap, LogFile, etc.
-
-### Data Flow
-
-```
-.git/git-reflect/
-├── log.json          # Persistent reflection log (auto-created)
-└── hook-script.sh    # Pre-commit hook (symlinked or copied)
-
-Log Structure:
-{
-  version: "1.0",
-  entries: [{ timestamp, branchName, commitMessage, answers }],
-  stats: { totalCommits, projectStartDate }
-}
+```bash
+npm run build
+node bin/reflection --help
+node bin/git-reflect --help
 ```
 
-## Key Conventions
+Run commands from inside a Git repository because storage is project-local under `.git/git-reflect/log.json`.
 
-- **Paths**: Use `path.join()` and `path.resolve()` to handle cross-platform paths safely
-- **Git Info**: Pre-commit hook has no commit hash yet; capture branch name via `git rev-parse --abbrev-ref HEAD` and commit message from `$GIT_PARAMS` or user input
-- **Hook Invocation**: Pre-commit hook is shell script that spawns Node process to run hook logic
-- **Error Handling**: All file I/O wrapped with try-catch; graceful degradation if log is corrupted
-- **Inquirer Integration**: Use inquirer for all user prompts; validate non-empty answers before storing
-- **Exit Codes**: Hook exits 0 to allow commit, 1 to block commit if user cancels/errors
-- **TypeScript**: Strict mode enabled; all functions typed; use interfaces for data structures
+## Architecture
 
-## Testing Strategy
+- `src/index.ts`: top-level CLI dispatcher and help text.
+- `src/commands.ts`: command handlers for reflection workflows.
+- `src/storage.ts`: local JSON persistence and schema normalization.
+- `src/types.ts`: shared TypeScript data model.
+- `src/thinking.ts`: pure thinking calculations and recommendations.
+- `src/format.ts`: terminal and markdown-style output formatting.
+- `src/report.ts`: weekly report generation.
+- `src/hook.ts`: original pre-commit reflection hook.
+- `src/setup.ts`: Git hook installation and verification.
+- `src/questions.ts`: original commit reflection questions.
 
-- **Unit Tests**: Test each module independently (storage, questions, prompt logic)
-- **Integration Tests**: Test setup flow (install hook, trigger it, verify log written)
-- **No Mocking Git**: Use real git for integration tests; create temp git repos in test fixtures
-- **Test Structure**: One test file per src module (e.g., `tests/storage.test.ts`)
+## Data Model
 
-## Installation & Development
+All data is stored locally in `.git/git-reflect/log.json`. The log includes:
 
-1. Clone: `git clone https://github.com/JulienAvezou/git-reflect.git`
-2. Install: `npm install`
-3. Build: `npm run build`
-4. Link locally: `npm link` to make `git-reflect` command available
-5. Test: `git-reflect install` in any test git repo
+- `entries`
+- `comprehensionDebt`
+- `learningEntries`
+- `explainBackEntries`
+- `thinkingModeSessions`
+- `thinkingScores`
+- `outsourcingAudits`
+- `decisionEntries`
+- `heatmapSnapshots`
+- `archetypeResults`
+- `promptReflections`
+- `stats`
 
-## Notes
+Storage must normalize older logs so existing Tier 1 data keeps working.
 
-- **Tone**: Emphasize reflection and cognitive awareness; avoid marketing hype
-- **UX**: Keep CLI minimal and focused; clear prompts, concise output
-- **Privacy**: All data local; never transmit reflections
-- **Future**: Post-MVP could add analytics, export, customization, but MVP is hook + storage only
+## Commands
+
+Core workflows:
+
+- `reflection debt add|list|resolve|show`
+- `reflection learn`
+- `reflection explain`
+- `reflection weekly`
+- `reflection mode`
+- `reflection score`
+- `reflection audit`
+- `reflection decide`
+- `reflection decisions`
+- `reflection decision show|review`
+- `reflection heatmap update|report`
+- `reflection archetype`
+- `reflection practice`
+- `reflection prompt`
+
+Git hook workflow:
+
+- `git-reflect install`
+- `git-reflect uninstall`
+- `git-reflect verify`
+
+## Engineering Conventions
+
+- Keep the app local-first; do not add authentication or cloud dependencies.
+- Prefer small, testable pure functions for scoring, recommendations, reports, and formatting.
+- Keep `commands.ts` as a thin shell over storage and pure logic.
+- Preserve existing CLI behavior and data compatibility.
+- Use helpful error messages for invalid input.
+- Rebuild `dist/` after source changes because generated files are tracked.
+- Add focused Jest tests for new behavior and backwards compatibility.

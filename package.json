@@ -21,7 +21,7 @@
     "url": "https://github.com/JulienAvezou/ReflectionCLI/issues"
   },
   "homepage": "https://github.com/JulienAvezou/ReflectionCLI#readme",
-  "description": "Integrate structured reflection into your git workflow. Prompts thoughtful questions before commits and builds your personal reflection dataset.",
+  "description": "A local-first command-line reflection tool for AI-assisted developers.",
   "devDependencies": {
     "@types/inquirer": "^9.0.9",
     "@types/jest": "^30.0.0",
@@ -37,6 +37,7 @@
     "typescript": "^5.9.3"
   },
   "bin": {
-    "git-reflect": "./bin/git-reflect"
+    "git-reflect": "./bin/git-reflect",
+    "reflection": "./bin/reflection"
   }
 }
